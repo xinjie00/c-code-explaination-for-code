@@ -1,0 +1,67 @@
+The following code its the explaination of the voltage calculation for university school project.
+*Please do ask the author before using the code in any of your project*
+
+
+
+
+Function : create_vi
+INPUT : readings[] , voltage[][96] , current[][96] //96=4*24  4 readings every hour , 24 hours a day
+VARIABLES : i , j , count , current_count , voltage_count , readings_count 	
+ALGO :
+	BEGIN
+
+		count = 0
+		current_count = 0
+        	voltage_count = 0
+		readings_count=0
+		
+		//i<7 7days 
+		For i=0 to 6 :
+
+			//j<192  192=4*24*2  4 readings every hour , 24 hours a day, 2 mesures (voltage and current)
+			For j=0 to 191 :
+				//First 4 readings for voltage, next 4 for current
+				IF count<4
+					voltage[i][voltage_count] = readings[readings_count]
+            				voltage_count=voltage_count=+1
+				ELSE
+					current[i][current_count] = readings[readings_count]
+            				current_count=current_count+1
+				ENDIF
+
+				count=count+1;
+		
+				if count = 8
+					count=0
+				ENDIF	
+				
+				readings_count=readings_count+1
+			EndFor
+			
+			i=i+1
+			
+		EndFor
+	END
+
+========================================================
+
+
+Function : cal_hrpower
+INPUT : average_power[][24], hour
+VARIABLES : result
+OUTPUT : Number
+ALGO :
+	BEGIN
+		result=0
+
+		//i<7 , 7 days
+		For i=0 to 6 :
+			result=result+average_power[i][hour+1]
+		EndFor
+
+		result=result/7
+
+		return result
+	END
+
+
